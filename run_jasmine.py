@@ -16,14 +16,14 @@ class JasmineSwitchBetweenCodeAndSpec(sublime_plugin.TextCommand):
     def possible_alternate_files(self): return []
 
   class JavascriptFile(BaseFile):
-    def possible_alternate_files(self): return [self.file_name.replace(".js", "_spec.js")]
+    def possible_alternate_files(self): return [self.file_name.replace(".js", "_spec.js"), self.file_name.replace(".js", ".spec.js")]
 
   class JasmineFile(BaseFile):
-    def possible_alternate_files(self): return [self.file_name.replace("_spec.js", ".js")]
+    def possible_alternate_files(self): return [self.file_name.replace("_spec.js", ".js").replace(".spec.js", ".js")]
 
   def current_file(self):
     file_name = self.view.file_name()
-    if re.search('\w+\_spec.js', file_name):
+    if re.search('\w+[_|.]spec.js', file_name):
       return JasmineSwitchBetweenCodeAndSpec.JasmineFile(file_name)
     elif re.search('\w+\.js', file_name):
       return JasmineSwitchBetweenCodeAndSpec.JavascriptFile(file_name)
